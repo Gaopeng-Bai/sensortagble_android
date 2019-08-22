@@ -1,5 +1,5 @@
 # sensortagble_android
-Requirement:
-            Platform: android studio
-            Android SDK: 28
-            Gradle version: 3.5.0
+requirement:
+            platform: android studio
+            android sdk: 28
+            gradle version: 3.5.0
