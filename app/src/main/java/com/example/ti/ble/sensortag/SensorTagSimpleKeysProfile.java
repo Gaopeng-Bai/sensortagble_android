@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
@@ -69,101 +65,105 @@ import com.example.ti.ble.common.GenericBluetoothProfile;
 import com.example.ti.util.Point3D;
 
 public class SensorTagSimpleKeysProfile extends GenericBluetoothProfile {
-	public SensorTagSimpleKeysProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
-		super(con,device,service,controller);
-		this.tRow =  new SensorTagSimpleKeysTableRow(con);
-		
-		List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
-		
-		for (BluetoothGattCharacteristic c : characteristics) {
-			if (c.getUuid().toString().equals(SensorTagGatt.UUID_KEY_DATA.toString())) {
-				this.dataC = c;
-			}
-		}
-		this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
-		this.tRow.title.setText(GattInfo.uuidToName(UUID.fromString(this.dataC.getUuid().toString())));
-		this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
-		
-		if (!(this.mBTDevice.getName().equals("CC2650 SensorTag"))) {
-			SensorTagSimpleKeysTableRow tmpRow = (SensorTagSimpleKeysTableRow) this.tRow;
-			tmpRow.sl3.setVisibility(View.INVISIBLE);
-			tmpRow.reedStateImage.setVisibility(View.INVISIBLE);
-			
-		}
-		
-		
-	}
-	public static boolean isCorrectService(BluetoothGattService service) {
-		if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_KEY_SERV.toString())) == 0) {
-			return true;
-		}
-		else return false;
-	}
-	@Override 
-	public void enableService () {
-		this.isEnabled = true;
-	}
-	@Override 
-	public void disableService () {
-		this.isEnabled = false;
-	}
-	@Override
-	public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
-		SensorTagSimpleKeysTableRow tmpRow = (SensorTagSimpleKeysTableRow) this.tRow;
-		if (c.equals(this.dataC)){
-            byte[] value = c.getValue();
-			switch(value[0]) {
-			case 0x1:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
-				break;
-			case 0x2:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
-				break;
-			case 0x3:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
-				break;
-			case 0x4:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
-				break;
-			case 0x5:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
-				break;
-			case 0x6:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
-				break;
-			case 0x7:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
-				break;
-			default:
-				tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
-				tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
-				tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
-				break;
-			}
-			tmpRow.lastKeys = value[0];
-		}
-	}
+    public SensorTagSimpleKeysProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller) {
+        super(con, device, service, controller);
+        this.tRow = new SensorTagSimpleKeysTableRow(con);
+
+        List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
+
+        for (BluetoothGattCharacteristic c : characteristics) {
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_KEY_DATA.toString())) {
+                this.dataC = c;
+            }
+        }
+        this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
+        this.tRow.title.setText(GattInfo.uuidToName(UUID.fromString(this.dataC.getUuid().toString())));
+        this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
+
+        if (!(this.mBTDevice.getName().equals("CC2650 SensorTag"))) {
+            SensorTagSimpleKeysTableRow tmpRow = (SensorTagSimpleKeysTableRow) this.tRow;
+            tmpRow.sl3.setVisibility(View.INVISIBLE);
+            tmpRow.reedStateImage.setVisibility(View.INVISIBLE);
+
+        }
+
+
+    }
+
+    public static boolean isCorrectService(BluetoothGattService service) {
+        if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_KEY_SERV.toString())) == 0) {
+            return true;
+        } else return false;
+    }
+
     @Override
-    public Map<String,String> getMQTTMap() {
+    public void enableService() {
+        this.isEnabled = true;
+    }
+
+    @Override
+    public void disableService() {
+        this.isEnabled = false;
+    }
+
+    @Override
+    public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
+        SensorTagSimpleKeysTableRow tmpRow = (SensorTagSimpleKeysTableRow) this.tRow;
+        if (c.equals(this.dataC)) {
+            byte[] value = c.getValue();
+            switch (value[0]) {
+                case 0x1:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
+                    break;
+                case 0x2:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
+                    break;
+                case 0x3:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
+                    break;
+                case 0x4:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
+                    break;
+                case 0x5:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
+                    break;
+                case 0x6:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
+                    break;
+                case 0x7:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyon_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyon_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayon_300);
+                    break;
+                default:
+                    tmpRow.leftKeyPressStateImage.setImageResource(R.drawable.leftkeyoff_300);
+                    tmpRow.rightKeyPressStateImage.setImageResource(R.drawable.rightkeyoff_300);
+                    tmpRow.reedStateImage.setImageResource(R.drawable.reedrelayoff_300);
+                    break;
+            }
+            tmpRow.lastKeys = value[0];
+        }
+    }
+
+    @Override
+    public Map<String, String> getMQTTMap() {
         byte[] value = this.dataC.getValue();
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("key_1",String.format("%d",value[0] & 0x1));
-        map.put("key_2",String.format("%d",value[0] & 0x2));
-        map.put("reed_relay",String.format("%d",value[0] & 0x4));
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("key_1", String.format("%d", value[0] & 0x1));
+        map.put("key_2", String.format("%d", value[0] & 0x2));
+        map.put("reed_relay", String.format("%d", value[0] & 0x4));
         return map;
     }
 }

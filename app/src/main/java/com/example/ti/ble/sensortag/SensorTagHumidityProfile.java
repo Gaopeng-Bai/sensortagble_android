@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
@@ -70,69 +66,70 @@ import com.example.ti.util.GenericCharacteristicTableRow;
 import com.example.ti.util.Point3D;
 
 public class SensorTagHumidityProfile extends GenericBluetoothProfile {
-		public SensorTagHumidityProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
-			super(con,device,service,controller);
-			this.tRow =  new GenericCharacteristicTableRow(con);
-			
-			List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
-			
-			for (BluetoothGattCharacteristic c : characteristics) {
-				if (c.getUuid().toString().equals(SensorTagGatt.UUID_HUM_DATA.toString())) {
-					this.dataC = c;
-				}
-				if (c.getUuid().toString().equals(SensorTagGatt.UUID_HUM_CONF.toString())) {
-					this.configC = c;
-				}
-				if (c.getUuid().toString().equals(SensorTagGatt.UUID_HUM_PERI.toString())) {
-					this.periodC = c;
-				}
-			}
-			
-			this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
-			
-			this.tRow.title.setText(GattInfo.uuidToName(UUID.fromString(this.dataC.getUuid().toString())));
-			this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
-			this.tRow.value.setText("0.0%rH");
-			this.tRow.periodBar.setProgress(100);
-		}
-		
-		public static boolean isCorrectService(BluetoothGattService service) {
-			if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_HUM_SERV.toString())) == 0) {//service.getUuid().toString().compareTo(SensorTagGatt.UUID_HUM_DATA.toString())) {
-				Log.d("Test", "Match !");
-				return true;
-			}
-			else return false;
-		}
-		public void didWriteValueForCharacteristic(BluetoothGattCharacteristic c) {
-			
-		}
-		public void didReadValueForCharacteristic(BluetoothGattCharacteristic c) {
-			
-		}
-		@Override
-        public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
-            byte[] value = c.getValue();
-				if (c.equals(this.dataC)){
-                    Point3D v;
-                    if (SensorTagUtil.isSensorTag2(mBTDevice)) {
-                          v = Sensor.HUMIDITY2.convert(value);
-                    }
-					else  v = Sensor.HUMIDITY.convert(value);
-					if (this.tRow.config == false) this.tRow.value.setText(String.format("%.1f %%rH", v.x));
-					this.tRow.sl1.maxVal = 100;
-					this.tRow.sl1.minVal = 0;
-					this.tRow.sl1.addValue((float)v.x);
-				}
-		}
+    public SensorTagHumidityProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller) {
+        super(con, device, service, controller);
+        this.tRow = new GenericCharacteristicTableRow(con);
+
+        List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
+
+        for (BluetoothGattCharacteristic c : characteristics) {
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_HUM_DATA.toString())) {
+                this.dataC = c;
+            }
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_HUM_CONF.toString())) {
+                this.configC = c;
+            }
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_HUM_PERI.toString())) {
+                this.periodC = c;
+            }
+        }
+
+        this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
+
+        this.tRow.title.setText(GattInfo.uuidToName(UUID.fromString(this.dataC.getUuid().toString())));
+        this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
+        this.tRow.value.setText("0.0%rH");
+        this.tRow.periodBar.setProgress(100);
+    }
+
+    public static boolean isCorrectService(BluetoothGattService service) {
+        if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_HUM_SERV.toString())) == 0) {//service.getUuid().toString().compareTo(SensorTagGatt.UUID_HUM_DATA.toString())) {
+            Log.d("Test", "Match !");
+            return true;
+        } else return false;
+    }
+
+    public void didWriteValueForCharacteristic(BluetoothGattCharacteristic c) {
+
+    }
+
+    public void didReadValueForCharacteristic(BluetoothGattCharacteristic c) {
+
+    }
+
     @Override
-    public Map<String,String> getMQTTMap() {
+    public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
+        byte[] value = c.getValue();
+        if (c.equals(this.dataC)) {
+            Point3D v;
+            if (SensorTagUtil.isSensorTag2(mBTDevice)) {
+                v = Sensor.HUMIDITY2.convert(value);
+            } else v = Sensor.HUMIDITY.convert(value);
+            if (this.tRow.config == false) this.tRow.value.setText(String.format("%.1f %%rH", v.x));
+            this.tRow.sl1.maxVal = 100;
+            this.tRow.sl1.minVal = 0;
+            this.tRow.sl1.addValue((float) v.x);
+        }
+    }
+
+    @Override
+    public Map<String, String> getMQTTMap() {
         Point3D v;
         if (SensorTagUtil.isSensorTag2(mBTDevice)) {
             v = Sensor.HUMIDITY2.convert(this.dataC.getValue());
-        }
-        else  v = Sensor.HUMIDITY.convert(this.dataC.getValue());
-        Map<String,String> map = new HashMap<String, String>();
-        map.put("humidity",String.format("%.2f",v.x));
+        } else v = Sensor.HUMIDITY.convert(this.dataC.getValue());
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("humidity", String.format("%.2f", v.x));
         return map;
     }
 }

@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
@@ -77,7 +73,7 @@ public class SensorTagDisplayProfile extends GenericBluetoothProfile {
     SensorTagDisplayTableRow cRow;
     Timer displayClock;
 
-    public SensorTagDisplayProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
+    public SensorTagDisplayProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller) {
         super(con, device, service, controller);
         this.cRow = new SensorTagDisplayTableRow(con);
         this.tRow = this.cRow;
@@ -102,9 +98,8 @@ public class SensorTagDisplayProfile extends GenericBluetoothProfile {
                         displayClock.cancel();
                     }
                     displayClock = new Timer();
-                    displayClock.schedule(new clockTask(),1000,1000);
-                }
-                else {
+                    displayClock.schedule(new clockTask(), 1000, 1000);
+                } else {
                     if (displayClock != null) {
                         displayClock.cancel();
                     }
@@ -153,41 +148,42 @@ public class SensorTagDisplayProfile extends GenericBluetoothProfile {
         });
 
 
-
-
     }
 
     public static boolean isCorrectService(BluetoothGattService service) {
         if ((service.getUuid().toString().compareTo(TI_SENSORTAG_TWO_DISPLAY_SERVICE_UUID.toString())) == 0) {
             return true;
-        }
-        else return false;
+        } else return false;
     }
 
     @Override
-    public void enableService () {
+    public void enableService() {
         if (this.cRow.displayClock.isChecked()) {
             if (displayClock != null) {
                 displayClock.cancel();
             }
             displayClock = new Timer();
-            displayClock.schedule(new clockTask(),1000,1000);
+            displayClock.schedule(new clockTask(), 1000, 1000);
         }
     }
+
     @Override
-    public void disableService () {
+    public void disableService() {
         if (displayClock != null) {
             displayClock.cancel();
         }
     }
+
     @Override
     public void configureService() {
 
     }
+
     @Override
     public void deConfigureService() {
 
     }
+
     @Override
     public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
     }
@@ -196,13 +192,13 @@ public class SensorTagDisplayProfile extends GenericBluetoothProfile {
         @Override
         public void run() {
             Date d = new Date();
-            final String date = String.format("%02d:%02d:%02d        ",d.getHours(),d.getMinutes(),d.getSeconds());
+            final String date = String.format("%02d:%02d:%02d        ", d.getHours(), d.getMinutes(), d.getSeconds());
             byte[] b = new byte[date.length()];
             for (int ii = 0; ii < date.length(); ii++) {
-                b[ii] = (byte)date.charAt(ii);
+                b[ii] = (byte) date.charAt(ii);
             }
             if (dataC != null) {
-                Activity a = (Activity)context;
+                Activity a = (Activity) context;
                 a.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -212,8 +208,7 @@ public class SensorTagDisplayProfile extends GenericBluetoothProfile {
             }
             try {
                 Thread.sleep(1000);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

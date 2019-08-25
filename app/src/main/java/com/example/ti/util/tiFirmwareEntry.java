@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.util;
 
@@ -67,8 +63,8 @@ public class tiFirmwareEntry {
     public final String DevPack;
 
     public tiFirmwareEntry(String Filename, boolean Custom, String WirelessStandard, String Type,
-                            int OADAlgo, String BoardType, float RequiredVersionRev, boolean SafeMode,
-                            float Version, String DevPack) {
+                           int OADAlgo, String BoardType, float RequiredVersionRev, boolean SafeMode,
+                           float Version, String DevPack) {
         this.Filename = Filename;
         this.Custom = Custom;
         this.WirelessStandard = WirelessStandard;

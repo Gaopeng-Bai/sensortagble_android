@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.util;
 
@@ -137,11 +133,12 @@ public class firmwareEntriesParser {
                 DevPack = readTag(parser, "DevPack");
             }
         }
-        tiFirmwareEntry entry = new tiFirmwareEntry(Filename,Custom, WirelessStandard, Type,
-        OADAlgo,BoardType,RequiredVersionRev, SafeMode,
-        Version,DevPack);
+        tiFirmwareEntry entry = new tiFirmwareEntry(Filename, Custom, WirelessStandard, Type,
+                OADAlgo, BoardType, RequiredVersionRev, SafeMode,
+                Version, DevPack);
         return entry;
     }
+
     private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
         if (parser.getEventType() != XmlPullParser.START_TAG) {
             throw new IllegalStateException();
@@ -158,7 +155,8 @@ public class firmwareEntriesParser {
             }
         }
     }
-    private String readTag(XmlPullParser parser,String tag) throws XmlPullParserException, IOException {
+
+    private String readTag(XmlPullParser parser, String tag) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, tag);
         String wS = "";
         if (parser.next() == XmlPullParser.TEXT) {
@@ -169,7 +167,7 @@ public class firmwareEntriesParser {
         return wS;
     }
 
-    private boolean readBoolean(XmlPullParser parser,String tag) throws XmlPullParserException, IOException {
+    private boolean readBoolean(XmlPullParser parser, String tag) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, tag);
         boolean temp = false;
         if (parser.next() == XmlPullParser.TEXT) {
@@ -180,7 +178,7 @@ public class firmwareEntriesParser {
         return temp;
     }
 
-    private float readFloat(XmlPullParser parser,String tag) throws XmlPullParserException, IOException {
+    private float readFloat(XmlPullParser parser, String tag) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, tag);
         float temp = 0.0f;
         if (parser.next() == XmlPullParser.TEXT) {
@@ -190,7 +188,8 @@ public class firmwareEntriesParser {
         parser.require(XmlPullParser.END_TAG, ns, tag);
         return temp;
     }
-    private int readInt(XmlPullParser parser,String tag) throws XmlPullParserException, IOException {
+
+    private int readInt(XmlPullParser parser, String tag) throws XmlPullParserException, IOException {
         parser.require(XmlPullParser.START_TAG, ns, tag);
         int temp = 0;
         if (parser.next() == XmlPullParser.TEXT) {

@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.ble.common;
 
@@ -99,15 +95,13 @@ public class IBMIoTCloudTableRow extends GenericCharacteristicTableRow {
         this.cloudConnectionStatus.setImageDrawable(getResources().getDrawable(R.drawable.cloud_disconnected));
 
 
-
-
         RelativeLayout.LayoutParams txtItemParams = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         txtItemParams.addRule(RelativeLayout.BELOW,
                 this.value.getId());
         txtItemParams.topMargin = 15;
-        txtItemParams.addRule(RelativeLayout.RIGHT_OF,icon.getId());
+        txtItemParams.addRule(RelativeLayout.RIGHT_OF, icon.getId());
         this.pushToCloudCaption.setLayoutParams(txtItemParams);
 
         txtItemParams = new RelativeLayout.LayoutParams(
@@ -117,7 +111,7 @@ public class IBMIoTCloudTableRow extends GenericCharacteristicTableRow {
                 this.value.getId());
         txtItemParams.topMargin = 15;
         txtItemParams.leftMargin = 10;
-        txtItemParams.addRule(RelativeLayout.RIGHT_OF,pushToCloudCaption.getId());
+        txtItemParams.addRule(RelativeLayout.RIGHT_OF, pushToCloudCaption.getId());
         pushToCloud.setLayoutParams(txtItemParams);
 
         txtItemParams = new RelativeLayout.LayoutParams(
@@ -127,7 +121,7 @@ public class IBMIoTCloudTableRow extends GenericCharacteristicTableRow {
                 this.pushToCloudCaption.getId());
         txtItemParams.topMargin = 30;
         txtItemParams.leftMargin = 0;
-        txtItemParams.addRule(RelativeLayout.RIGHT_OF,icon.getId());
+        txtItemParams.addRule(RelativeLayout.RIGHT_OF, icon.getId());
         cloudURL.setLayoutParams(txtItemParams);
 
         txtItemParams = new RelativeLayout.LayoutParams(
@@ -137,7 +131,7 @@ public class IBMIoTCloudTableRow extends GenericCharacteristicTableRow {
                 this.cloudURL.getId());
         txtItemParams.topMargin = 30;
         txtItemParams.leftMargin = 0;
-        txtItemParams.addRule(RelativeLayout.RIGHT_OF,icon.getId());
+        txtItemParams.addRule(RelativeLayout.RIGHT_OF, icon.getId());
         configureCloud.setLayoutParams(txtItemParams);
 
         txtItemParams = new RelativeLayout.LayoutParams(
@@ -147,7 +141,7 @@ public class IBMIoTCloudTableRow extends GenericCharacteristicTableRow {
                 this.cloudURL.getId());
         txtItemParams.topMargin = 0;
         txtItemParams.leftMargin = 30;
-        txtItemParams.addRule(RelativeLayout.RIGHT_OF,configureCloud.getId());
+        txtItemParams.addRule(RelativeLayout.RIGHT_OF, configureCloud.getId());
         cloudConnectionStatus.setLayoutParams(txtItemParams);
 
         this.rowLayout.addView(this.pushToCloudCaption);
@@ -157,9 +151,11 @@ public class IBMIoTCloudTableRow extends GenericCharacteristicTableRow {
         this.rowLayout.addView(this.cloudConnectionStatus);
 
     }
+
     @Override
     public void onClick(View v) {
     }
+
     public void setCloudConnectionStatusImage(Drawable drawable) {
         this.cloudConnectionStatus.setImageDrawable(drawable);
     }

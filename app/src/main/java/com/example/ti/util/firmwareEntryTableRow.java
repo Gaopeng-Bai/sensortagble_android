@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.util;
 
@@ -73,6 +69,7 @@ public class firmwareEntryTableRow extends TableRow {
     TextView tV;
     tiFirmwareEntry ent;
     public int position;
+
     @SuppressLint("ResourceType")
     public firmwareEntryTableRow(Context con, tiFirmwareEntry entry) {
         super(con);
@@ -88,10 +85,10 @@ public class firmwareEntryTableRow extends TableRow {
         tV = new TextView(con);
         tV.setId(500);
         if (tV != null) {
-            tV.setText(String.format("%s %1.2f %s(%s)",entry.BoardType,entry.Version,entry.DevPack + " ",entry.WirelessStandard));
+            tV.setText(String.format("%s %1.2f %s(%s)", entry.BoardType, entry.Version, entry.DevPack + " ", entry.WirelessStandard));
         }
 
-        tV.setPadding(10,5,10,5);
+        tV.setPadding(10, 5, 10, 5);
         tV.setTextSize(20);
         //tV.setTypeface(Typeface.DEFAULT_BOLD);
         RelativeLayout.LayoutParams tmpLayoutParams = new RelativeLayout.LayoutParams(
@@ -102,17 +99,18 @@ public class firmwareEntryTableRow extends TableRow {
 
         subTitleView = new TextView(con);
         if (subTitleView != null) {
-            if (entry.compatible) subTitleView.setText(String.format("%s","Compatible"));
+            if (entry.compatible) subTitleView.setText(String.format("%s", "Compatible"));
             else subTitleView.setText("Not compatible");
         }
         subTitleView.setTextSize(12);
         subTitleView.setLayoutParams(tmpLayoutParams);
-        subTitleView.setPadding(10,5,10,5);
+        subTitleView.setPadding(10, 5, 10, 5);
 
         this.rowLayout.addView(tV);
         this.rowLayout.addView(subTitleView);
         this.addView(this.rowLayout);
     }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -123,8 +121,7 @@ public class firmwareEntryTableRow extends TableRow {
         if (grayed == true) {
             tV.setTextColor(Color.LTGRAY);
             subTitleView.setTextColor(Color.LTGRAY);
-        }
-        else {
+        } else {
             tV.setTextColor(Color.BLACK);
             subTitleView.setTextColor(Color.BLACK);
         }

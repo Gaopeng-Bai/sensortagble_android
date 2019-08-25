@@ -21,7 +21,6 @@
 
  Redistribution and use in binary form, without modification, are permitted provided that the following
  conditions are met:
-
  * No reverse engineering, decompilation, or disassembly of this software is permitted with respect to any
  software provided in binary form.
  * any redistribution and use are licensed by TI for use only with TI Devices.
@@ -29,7 +28,6 @@
 
  If software source code is provided to you, modification and redistribution of the source code are permitted
  provided that the following conditions are met:
-
  * any redistribution and use of the source code, including any resulting derivative works, are licensed by
  TI for use only with TI Devices.
  * any redistribution and use of any object code compiled from the source code and any resulting derivative
@@ -47,8 +45,6 @@
  OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  POSSIBILITY OF SUCH DAMAGE.
-
-
  **************************************************************************************************/
 package com.example.ti.ble.sensortag;
 
@@ -66,71 +62,73 @@ import com.example.ti.ble.common.GenericBluetoothProfile;
 import com.example.ti.util.GenericCharacteristicTableRow;
 import com.example.ti.util.Point3D;
 
-	public class SensorTagIRTemperatureProfile extends GenericBluetoothProfile {
-		public SensorTagIRTemperatureProfile(Context con,BluetoothDevice device,BluetoothGattService service,BluetoothLeService controller) {
-			super(con,device,service,controller);
-			this.tRow =  new GenericCharacteristicTableRow(con);
-			
-			List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
-			
-			for (BluetoothGattCharacteristic c : characteristics) {
-				if (c.getUuid().toString().equals(SensorTagGatt.UUID_IRT_DATA.toString())) {
-					this.dataC = c;
-				}
-				if (c.getUuid().toString().equals(SensorTagGatt.UUID_IRT_CONF.toString())) {
-					this.configC = c;
-				}
-				if (c.getUuid().toString().equals(SensorTagGatt.UUID_IRT_PERI.toString())) {
-					this.periodC = c;
-				}
-			}
-			this.tRow.sl1.autoScale = true;
-			this.tRow.sl1.autoScaleBounceBack = true;
-			this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
-			
-			this.tRow.title.setText("IR Temperature Data");
-			this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
-			this.tRow.value.setText("0.0'C");
-			this.tRow.periodMinVal = 200;
-			this.tRow.periodBar.setMax(255 - (this.tRow.periodMinVal / 10));
-			this.tRow.periodBar.setProgress(100);
-		}
-        @Override
-        public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
-            byte[] value = c.getValue();
-			if (c.equals(this.dataC)){
-				if (this.mBTDevice.getName().equals("CC2650 SensorTag")) {
-					Point3D v = Sensor.IR_TEMPERATURE.convert(value);
-					if ((this.isEnabledByPrefs("imperial")) == true) this.tRow.value.setText(String.format("%.1f°F", (v.z * 1.8) + 32));
-					else this.tRow.value.setText(String.format("%.1f°C", v.z));
-					this.tRow.sl1.addValue((float)v.z);
-				}
-				else {
-					Point3D v = Sensor.IR_TEMPERATURE.convert(value);
-					if (this.tRow.config == false) {
-						if ((this.isEnabledByPrefs("imperial")) == true) this.tRow.value.setText(String.format("%.1f°F", (v.y * 1.8) + 32));
-						else this.tRow.value.setText(String.format("%.1f°C", v.y));
-					}	
-					this.tRow.sl1.addValue((float)v.y); 
-				}
-			}
-		}
-		public static boolean isCorrectService(BluetoothGattService service) {
-			if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_IRT_SERV.toString())) == 0) {
-				return true;
-			}
-			else return false;
-		}
-        @Override
-        public Map<String,String> getMQTTMap() {
-            Point3D v = Sensor.IR_TEMPERATURE.convert(this.dataC.getValue());
-            Map<String,String> map = new HashMap<String, String>();
-            if (this.mBTDevice.getName().equals("CC2650 SensorTag")) {
-                map.put("object_temp", String.format("%.2f", v.z));
+public class SensorTagIRTemperatureProfile extends GenericBluetoothProfile {
+    public SensorTagIRTemperatureProfile(Context con, BluetoothDevice device, BluetoothGattService service, BluetoothLeService controller) {
+        super(con, device, service, controller);
+        this.tRow = new GenericCharacteristicTableRow(con);
+
+        List<BluetoothGattCharacteristic> characteristics = this.mBTService.getCharacteristics();
+
+        for (BluetoothGattCharacteristic c : characteristics) {
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_IRT_DATA.toString())) {
+                this.dataC = c;
             }
-            else {
-                map.put("object_temp", String.format("%.2f", v.y));
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_IRT_CONF.toString())) {
+                this.configC = c;
             }
-            return map;
+            if (c.getUuid().toString().equals(SensorTagGatt.UUID_IRT_PERI.toString())) {
+                this.periodC = c;
+            }
         }
-	}
+        this.tRow.sl1.autoScale = true;
+        this.tRow.sl1.autoScaleBounceBack = true;
+        this.tRow.setIcon(this.getIconPrefix(), this.dataC.getUuid().toString());
+
+        this.tRow.title.setText("IR Temperature Data");
+        this.tRow.uuidLabel.setText(this.dataC.getUuid().toString());
+        this.tRow.value.setText("0.0'C");
+        this.tRow.periodMinVal = 200;
+        this.tRow.periodBar.setMax(255 - (this.tRow.periodMinVal / 10));
+        this.tRow.periodBar.setProgress(100);
+    }
+
+    @Override
+    public void didUpdateValueForCharacteristic(BluetoothGattCharacteristic c) {
+        byte[] value = c.getValue();
+        if (c.equals(this.dataC)) {
+            if (this.mBTDevice.getName().equals("CC2650 SensorTag")) {
+                Point3D v = Sensor.IR_TEMPERATURE.convert(value);
+                if ((this.isEnabledByPrefs("imperial")) == true)
+                    this.tRow.value.setText(String.format("%.1f°F", (v.z * 1.8) + 32));
+                else this.tRow.value.setText(String.format("%.1f°C", v.z));
+                this.tRow.sl1.addValue((float) v.z);
+            } else {
+                Point3D v = Sensor.IR_TEMPERATURE.convert(value);
+                if (this.tRow.config == false) {
+                    if ((this.isEnabledByPrefs("imperial")) == true)
+                        this.tRow.value.setText(String.format("%.1f°F", (v.y * 1.8) + 32));
+                    else this.tRow.value.setText(String.format("%.1f°C", v.y));
+                }
+                this.tRow.sl1.addValue((float) v.y);
+            }
+        }
+    }
+
+    public static boolean isCorrectService(BluetoothGattService service) {
+        if ((service.getUuid().toString().compareTo(SensorTagGatt.UUID_IRT_SERV.toString())) == 0) {
+            return true;
+        } else return false;
+    }
+
+    @Override
+    public Map<String, String> getMQTTMap() {
+        Point3D v = Sensor.IR_TEMPERATURE.convert(this.dataC.getValue());
+        Map<String, String> map = new HashMap<String, String>();
+        if (this.mBTDevice.getName().equals("CC2650 SensorTag")) {
+            map.put("object_temp", String.format("%.2f", v.z));
+        } else {
+            map.put("object_temp", String.format("%.2f", v.y));
+        }
+        return map;
+    }
+}
