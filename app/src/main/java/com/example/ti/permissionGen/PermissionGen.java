@@ -11,9 +11,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
-import kr.co.namee.permissiongen.internal.Utils;
+import com.example.ti.permissionGen.internal.Utils;
 
-import static kr.co.namee.permissiongen.internal.Utils.getActivity;
+import static com.example.ti.permissionGen.internal.Utils.getActivity;
 
 /**
  * Created by namee on 2015. 11. 17..
